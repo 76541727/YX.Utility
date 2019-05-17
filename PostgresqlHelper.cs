@@ -13,7 +13,7 @@ namespace Yx.Utility
     public abstract class PostgresqlHelper
     {
         //获取数据库连接字符串，其属于静态变量且只读，项目中所有文档可以直接使用，但不能修改
-        public static readonly string ConnectionStringLocalTransaction = ConfigurationManager.ConnectionStrings["postgresql"].ConnectionString;
+        public static readonly string ConnectionStr = ConfigurationManager.ConnectionStrings["postgresql"].ConnectionString;
 
         // 哈希表用来存储缓存的参数信息，哈希表可以存储任意类型的参数。
         private static Hashtable parmCache = Hashtable.Synchronized(new Hashtable());
@@ -268,7 +268,7 @@ namespace Yx.Utility
         /// <returns></returns>
         public static object ExcuteScalar(string sql)
         {
-            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction))
+            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStr))
             {
                 con.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
@@ -287,7 +287,7 @@ namespace Yx.Utility
         /// <returns>返回DataReader</returns>
         public static NpgsqlDataReader ExcuteReader(string sql, NpgsqlParameter[] param)
         {
-            NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction);
+            NpgsqlConnection con = new NpgsqlConnection(ConnectionStr);
             con.Open();
             NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
             cmd.Parameters.AddRange(param);
@@ -305,7 +305,7 @@ namespace Yx.Utility
         /// <returns>返回DataReader</returns>
         public static NpgsqlDataReader ExcuteReader(string sql)
         {
-            NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction);
+            NpgsqlConnection con = new NpgsqlConnection(ConnectionStr);
             con.Open();
             NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
             return cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -320,7 +320,7 @@ namespace Yx.Utility
         /// <returns>返回DataTable</returns>
         public static DataTable ExcuteDataQuery(string sql)
         {
-            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction))
+            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStr))
             {
                 con.Open();
                 NpgsqlDataAdapter sda = new NpgsqlDataAdapter(sql, con);
@@ -341,7 +341,7 @@ namespace Yx.Utility
         /// <returns>影响的行数</returns>
         public static int ExcuteNonQuery(string sql, NpgsqlParameter[] param)
         {
-            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction))
+            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStr))
             {
                 con.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
@@ -403,7 +403,7 @@ namespace Yx.Utility
         /// <returns>返回int类型的数据</returns>
         public static int ExecuteNonQuery(string textcmd, NpgsqlParameter[] param, CommandType cmdType)
         {
-            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction))
+            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStr))
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
                 PreparedCommd(con, cmd, textcmd, cmdType, param);
@@ -423,7 +423,7 @@ namespace Yx.Utility
         /// <returns></returns>
         public static object ExecuteScalar(string textmd, CommandType cmdType, NpgsqlParameter[] param)
         {
-            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction))
+            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStr))
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
                 PreparedCommd(con, cmd, textmd, cmdType, param);
@@ -442,7 +442,7 @@ namespace Yx.Utility
         /// <returns></returns>
         public static object ExecuteScalar(string SQL)
         {
-            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction))
+            using (NpgsqlConnection con = new NpgsqlConnection(ConnectionStr))
             {
                 con.Open();
                 NpgsqlCommand cmd = new NpgsqlCommand(SQL, con);
@@ -461,7 +461,7 @@ namespace Yx.Utility
         /// <returns></returns>
         public static NpgsqlDataReader ExecuteReader(string textcmd, CommandType cmdType, NpgsqlParameter[] param)
         {
-            NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction);
+            NpgsqlConnection con = new NpgsqlConnection(ConnectionStr);
             NpgsqlCommand cmd = new NpgsqlCommand();
             try
             {
@@ -485,7 +485,7 @@ namespace Yx.Utility
         /// <returns></returns>
         public static DataTable ExecuteReader(string sql)
         {
-            NpgsqlConnection con = new NpgsqlConnection(ConnectionStringLocalTransaction);
+            NpgsqlConnection con = new NpgsqlConnection(ConnectionStr);
             DataTable dt = new DataTable();
             try
             {
